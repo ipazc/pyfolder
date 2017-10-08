@@ -40,7 +40,7 @@ Basic Usage
 ===========
 `PyFolder` can easily store or read content from the filesystem. The usage is the same as a normal dictionary:
 
-* Create a file with specific binary content:
+* **Create a file with specific binary content:**
 
 .. code:: python
 
@@ -70,7 +70,7 @@ If folder specified doesn't exist, by default it will create it automatically un
 Note that "." or ".." chars are not allowed in URI notation, it must be relative URIs to the root.
 
 
-* Get specific content:
+* **Get specific content:**
 
 .. code:: python
 
@@ -92,7 +92,7 @@ a content, it will return the content in bytes format. This behaviour can be dis
     >>> pyfolder = PyFolder("/path/to/folder", interpret=False)
 
 
-* Edit content:
+* **Edit content:**
 
 `PyFolder` won't allow modification or removal of elements unless the flag `allow_override` is specified during instantiation:
 
@@ -102,7 +102,7 @@ a content, it will return the content in bytes format. This behaviour can be dis
     >>> pyfolder['file.bin'] = b"replaced_content_bytes"
 
 
-* Remove content:
+* **Remove content:**
 
 .. code:: python
 
@@ -124,32 +124,7 @@ By default PyFolder won't remove a folder unless its content is empty. In order 
     >>> pyfolder = PyFolder("/path/to/folder", allow_remove_folders_with_content=True)
 
 
-* Iterate over folders:
-
-.. code:: python
-
-    >>> for folder_name in pyfolder.folders():
-    ...
-
-
-it is also possible to iterate over the folder name and its content at the same time:
-
-
-.. code:: python
-
-    >>> for folder_name, folder_content in pyfolder.folders_items():
-    ...
-
-
-In `PyFolder`, each folder is a `PyFolder` object. It is perfectly possible to nest folders as follows:
-
-.. code:: python
-
-    >>> pyfolder["folder1"]["folder2"]
-    >>> pyfolder["folder1/folder2"]  # Equivalent in relative URI notation
-
-
-* Iterate over files:
+* **Iterate over the files:**
 
 By default `PyFolder` allows iteration over files, including the folders:
 
@@ -174,7 +149,32 @@ If only files are wanted, the `files()` method exists to serve the purpose:
     >>> for file_name, content in pyfolder.files_items()
 
 
-* Search for files:
+* **Iterate over folders:**
+
+.. code:: python
+
+    >>> for folder_name in pyfolder.folders():
+    ...
+
+
+it is also possible to iterate over the folder name and its content at the same time:
+
+
+.. code:: python
+
+    >>> for folder_name, folder_content in pyfolder.folders_items():
+    ...
+
+
+In `PyFolder`, each folder is a `PyFolder` object. It is perfectly possible to nest folders as follows:
+
+.. code:: python
+
+    >>> pyfolder["folder1"]["folder2"]
+    >>> pyfolder["folder1/folder2"]  # Equivalent in relative URI notation
+
+
+* **Search for files:**
 
 `PyFolder` eases the search of a file/folder by matching a name. It will return the list of relative URIs of the file-names found:
 

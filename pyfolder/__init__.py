@@ -1,5 +1,28 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+#MIT License
+#
+#Copyright (c) 2017 Iván de Paz Centeno
+#
+#Permission is hereby granted, free of charge, to any person obtaining a copy
+#of this software and associated documentation files (the "Software"), to deal
+#in the Software without restriction, including without limitation the rights
+#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#copies of the Software, and to permit persons to whom the Software is
+#furnished to do so, subject to the following conditions:
+#
+#The above copyright notice and this permission notice shall be included in all
+#copies or substantial portions of the Software.
+#
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#SOFTWARE.
+
 import os
 import shutil
 
@@ -75,6 +98,9 @@ class PyFolder(dict):
 
         father, item_name = self.__get_uri_item_name(item)
 
+        if not os.path.exists(os.path.join(father.folder_root, item_name)):
+            raise KeyError(item)
+
         if os.path.isfile(os.path.join(father.folder_root, item_name)):
             content = self.interpreters.load(os.path.join(self.folder_root, item))
         else:
@@ -92,7 +118,11 @@ class PyFolder(dict):
             iterator = self
 
             for path in items[:-1]:
-                iterator = iterator[path]
+                iterator = PyFolder(os.path.join(iterator.folder_root, path),
+                                      auto_create_folder=self.auto_create_folder, interpret=self.interpret,
+                                      allow_override=self.allow_override,
+                                      allow_remove_folders_with_content=self.allow_remove_folders_with_content,
+                                        interpreters=self.interpreters)
 
             result = iterator, items[-1]
         else:
@@ -162,3 +192,27 @@ class PyFolder(dict):
             shutil.rmtree(self.folder_root, ignore_errors=True)
         else:
             os.rmdir(self.folder_root)
+
+    def index(self, filename, max_depth=200):
+        matches = self.__index(filename, max_depth)
+        folder_root = self.folder_root
+        if not folder_root.endswith("/"): folder_root += "/"
+
+        return [match.replace(folder_root, "") for match in matches]
+
+    def __index(self, filename, max_depth):
+        matches = []
+
+        if max_depth == 0:
+            return matches
+
+        for f in self.files():
+            if f == filename:
+                matches.append(os.path.join(self.folder_root, f))
+
+        for f, folder in self.folders_items():
+            if f == filename:
+                matches.append(os.path.join(self.folder_root, f))
+            matches += folder.__index(filename, max_depth-1)
+
+        return matches

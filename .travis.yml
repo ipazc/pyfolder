@@ -12,7 +12,7 @@ install:
   - pip3 install -r requirements.txt
   - pip3 install nose coverage
   - pip3 install coveralls
-# # command to run tests, e.g. python setup.py test
+# # command to run tests, e.g. python setup.py tests
 script:
   - python3 setup.py nosetests --with-coverage --cover-package pyfolder --verbosity=2
 after_success:
