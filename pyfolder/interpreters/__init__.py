@@ -72,7 +72,7 @@ class Interpreters(object):
 
     def load(self, uri):
         try:
-            extension = uri.split(".")[1]
+            extension = uri.split(".")[-1]
         except IndexError as ex:
             extension = ""
 
@@ -161,7 +161,7 @@ class TextInterpreter(Interpreter):
         self.extensions = ["txt", "csv", "conf", "ini"]
 
     def can_load(self, extension):
-        return any([extension.lower().endswith(e) for e in self.extensions])
+        return any([extension.lower() == e for e in self.extensions])
 
     def can_save(self, object):
         # The binary interpreter can only save bytes objects
