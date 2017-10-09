@@ -39,7 +39,7 @@ if sys.version_info < (3, 4, 1):
 
 
 setup(name='pyfolder',
-      version='0.0.1',
+      version='0.0.2',
       description='PyFolder is a package for managing filesystem folders as a dictionary.',
       long_description=readme(),
       url='http://github.com/ipazc/pyfolder',

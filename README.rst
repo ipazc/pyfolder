@@ -1,5 +1,5 @@
 ==============
-pyfolder 0.0.1
+pyfolder 0.0.2
 ==============
 
 `PyFolder` is a package for managing a filesystem folders as a dictionary.
@@ -50,7 +50,6 @@ Basic Usage
     >>> pyfolder['file.bin'] = b"Content as bytes"
     >>> pyfolder['file.txt'] = "Content as text"
     >>> pyfolder['file.json'] = {"content": "Content as JSON"}
-    >>> pyfolder['file.jpg'] = PILImage
 
 
 `PyFolder` automatically detects the kind of content to store.
@@ -59,9 +58,9 @@ It is also possible to reference the creation of a file in relative file URI not
 
 .. code:: python
 
-    >>> pyfolder["folder1/folder2/file.txt"]
+    >>> pyfolder["folder1/folder2/file.txt"] = "content"
 
-If folder specified doesn't exist, by default it will create it automatically unless the flag `auto_create_folder` is set to `False` during instantiation:
+If folder specified doesn't exist, by default it will be created automatically unless the flag `auto_create_folder` is set to `False` during instantiation:
 
 .. code:: python
 
